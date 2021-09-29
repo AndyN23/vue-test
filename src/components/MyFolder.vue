@@ -1,23 +1,28 @@
 <template>
-    <li >
+    <li class="item-list" >
         <div
             :class="{bold: isFolder}"
             @click="toggle"
-            @dblclick="makeFolder">
-                {{item.name}}
-            <span v-if="isFolder">{{ isOpen ? '-' : '+' }}</span>
+            @dblclick="makeFolder"
+
+            >
+            {{item.name}}
+            <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
         </div>
-        <ol v-show="isOpen" v-if="isFolder">
-            <li
+        <ul v-show="isOpen" v-if="isFolder" class="item-list__list">
+            <list-item
                 class="item"
+
                 v-for="(child, index) in item.children"
                 :key="index"
                 :item="child"
                 @make-folder="$emit('make-folder', $event)"
-                @add-item="$emit('add-item', $event)">
-            </li>
+                @add-item="$emit('add-item', $event)"
+            > - {{item.name}}
+
+            </list-item>
             <li class="add" @click="$emit('add-item', item)">+</li>
-        </ol>
+        </ul>
     </li>
 </template>
 
@@ -27,10 +32,10 @@
         props: {
             item: Object
         },
-        data: function() {
+        data() {
             return {
                 isOpen: false
-            };
+            }
         },
         computed: {
             isFolder: function() {
@@ -46,27 +51,24 @@
             makeFolder: function() {
                 if (!this.isFolder) {
                 this.$emit("make-folder", this.item);
-                this.isOpen = true;
+                this.data = true;
                 }
-            }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .bold {
-        font-weight: bold;
-    }
 
-    .item{
-        color: darkslateblue;
-        font-size: 18px;
-        cursor: pointer;
-    }
+.bold{
+    font-weight: bold;
+}
 
-    .add{
-        color: darkgreen;
-        font-size: 16px;
-    }
+.item-list__list{
+    margin-left: 20px;
+    text-align: start;
+    list-style: none;
+
+}
 
 </style>

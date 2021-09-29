@@ -1,39 +1,38 @@
 <template>
     <div class="folder-list">
-        <h2 class="">My Folders Tree</h2>
-        <ol id="demo">
+        <h2 class="folder-list__title">My Folders Tree</h2>
+        <ul id="demo" class="folder__list">
             <list-item
                 class="item"
                 :item="treeData"
-                @make-folder="makeFolder"
                 @add-item="addItem"
-            ></list-item>
-        </ol>
+                @dblclick="makeFolder"
+            >
+
+            </list-item>
+        </ul>
     </div>
 </template>
 
 <script>
 import MyFolder from "@/components/MyFolder";
+
     export default {
         components: {MyFolder},
         name: 'folder-list',
         data() {
             return{
                 treeData: {
+                    name: 'Folder',
                     children: [
                         { name: "Folder" },
-                        { name: "Folder2" },
-                        {
-                            name: "child folder",
+                        { name: "child folder",
                             children: [
-                                {
-                                    name: "child folder",
-                                    children: [{ name: "Folder" }, { name: "Folder2" }]
+                                {name: "child folder",
+                                children: [{ name: "Folder" }, { name: "Folder2" }]
                                 },
                                 { name: "Folder" },
-                                { name: "Folder2" },
-                                {
-                                    name: "child folder",
+                                {name: "child folder",
                                     children: [{ name: "Folder" }, { name: "Folder2" }]
                                 }
                             ]
@@ -44,14 +43,22 @@ import MyFolder from "@/components/MyFolder";
         },
         methods: {
             makeFolder: function(item) {
-                Vue.set(item, "children", []);
+                this.children.set(item, "children", []);
                 this.addItem(item);
             },
+            // makeFolder: function() {
+            //     if (!this.isFolder) {
+            //     this.$emit("make-folder", this.item);
+            //     this.isOpen = true;
+            //     }
+            // },
+
             addItem: function(item) {
                 item.children.push({
-                    name: "new folder"
+                name: "new folder"
                 });
-            }
+            },
+            
         }
     }
 </script>
@@ -59,14 +66,16 @@ import MyFolder from "@/components/MyFolder";
 <style lang="scss" scoped>
 
     .folder-list{
-        margin: 10px;
+        margin: 15px;
+
+        &__title{
+            margin-bottom: 20px;
+        }
     }
 
-    ol, li{
-        padding-left: 1em;
-        line-height: 1.5em;
-        list-style-type: dot;
+    .folder__list{
+        display: flex;
+        margin-left: 50px;
     }
-
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div calss="content">
+  <div class="content">
     <h1>Начальная страница</h1>
     <my-button
       @click="showDialog">

@@ -18,9 +18,9 @@ import  MyFolder from '@/components/MyFolder';
     export default {
         components: {FolderList, MyFolder},
         name: 'my-dialog', 
-        date(){
+        data(){
             return{
-                treeData:[],
+                treeData: ['treeData']
             }
         },
         props: {
@@ -33,26 +33,15 @@ import  MyFolder from '@/components/MyFolder';
             hideDialog() {
                 this.$emit('update:show', false)
             },
-            makeFolder: function(item) {
-                Vue.set(item, "children", []);
-                this.addItem(item);
-            },
             addItem: function(item) {
                 item.children.push({
                     name: "new folder"
                 });
             },
-            toggle: function() {
-                if (this.isFolder) {
-                this.isOpen = !this.isOpen;
-                }
+            makeFolder: function(item) {
+                this.children.set(item, "children", []);
+                this.addItem(item);
             },
-            makeFolder: function() {
-                if (!this.isFolder) {
-                this.$emit("make-folder", this.item);
-                this.isOpen = true;
-                }
-            }
         }
     }
 </script>
@@ -74,14 +63,18 @@ import  MyFolder from '@/components/MyFolder';
         border-radius: 8px;
         min-height: 450px;
         min-width: 650px;
-        padding: 10px;
+        padding: 10px 10px 25px;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
+        justify-content: space-between;
     }
 
     &-close{
         background-color: #d42f2f;
         padding: 10px 10px;
+        width: 50%;
+        margin: 0 auto;
         
 
         &:hover{
@@ -89,24 +82,5 @@ import  MyFolder from '@/components/MyFolder';
         }
     }
 }
-
-// .button.add-folder{
-//     font-size: 24px;
-//     font-weight: bold;
-//     width: 30px;
-//     height: 30px;
-//     background-color: #3153eb;
-//     border: 1px solid #253bbb;
-//     border-radius: 50%;
-//     color:#fff;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     padding: 0;
-
-//     &:hover{
-//         background-color: #253bbb;
-//     }
-// }
 
 </style>

@@ -8,5 +8,4 @@ export default [
     MyDialog,
     MyFolder, 
     FolderList
-
 ]
